@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6605671261037804426}
+  - component: {fileID: 413206028528223035}
   m_Layer: 0
   m_Name: AK47Prefab
   m_TagString: Untagged
@@ -30,6 +31,65 @@ Transform:
   - {fileID: 2756481558034244527}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &413206028528223035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880224734579864047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8dcd3de7fefe1b41b2fe3751ca7f8bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gripLocation: {fileID: 1100327986174147443}
+  weaponStats:
+    weaponType: 2
+    weaponName: AK-47
+    damage: 35
+    bulletsInClip: 30
+    clipSize: 30
+    fireStartDelay: 0.07
+    fireRate: 0.125
+    weaponFiringPattern: 1
+    fireDistance: 500
+    repeating: 1
+    weaponHitLayers:
+      serializedVersion: 2
+      m_Bits: 4294967295
+  isFiring: 0
+  isReloading: 0
+--- !u!1 &4724985403091604435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1100327986174147443}
+  m_Layer: 0
+  m_Name: IKGripSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1100327986174147443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4724985403091604435}
+  m_LocalRotation: {x: 0.44240013, y: -0.47005352, z: -0.5197838, w: 0.559604}
+  m_LocalPosition: {x: -0.0391, y: 0.0198, z: 0.3303}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2756481558034244527}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2760345563209587261
 PrefabInstance:
