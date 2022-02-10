@@ -32,6 +32,8 @@ public class WeaponHolder : MonoBehaviour
 
         equippedWeapon = spawnedWeapon.GetComponent<WeaponComponent>();
         equippedWeapon.Initialize(this);
+        PlayerEvents.InvokeOnWeaponEquipped(equippedWeapon);
+
         gripIKSocketLocation = equippedWeapon.gripLocation;
 
     }
@@ -57,7 +59,7 @@ public class WeaponHolder : MonoBehaviour
         }
         else
         {
-            print("Stopping firing");
+            //print("Stopping firing");
             StopFiring();
         }
 
@@ -65,7 +67,11 @@ public class WeaponHolder : MonoBehaviour
 
     public void StartFiring()
     {
-        if (equippedWeapon.weaponStats.bulletsInClip <= 0) return;
+        if (equippedWeapon.weaponStats.bulletsInClip <= 0)
+        {
+            StartReloading();
+            return;
+        }
         animator.SetBool(isFiringHash, true);
         playerController.isFiring = true;
         equippedWeapon.StartFiringWeapon();
@@ -76,15 +82,36 @@ public class WeaponHolder : MonoBehaviour
         animator.SetBool(isFiringHash, false);
         equippedWeapon.StopFiringWeapon();
     }
-
+    //input based reload
     public void OnReload(InputValue value)
     {
-        playerController.isReloading = value.isPressed;
-        animator.SetBool(isReloadingHash, playerController.isReloading);
+        playerController.isReloading = value.isPressed;        
+        StartReloading();
     }
 
+    //the action of reloading
     public void StartReloading()
-    { 
-    
+    {
+        
+        if (playerController.isFiring)
+        {
+            StopFiring();
+        }
+        if (equippedWeapon.weaponStats.totalBullets <= 0) return;
+
+        animator.SetBool(isReloadingHash, true);
+        equippedWeapon.StartReloading();
+
+        InvokeRepeating(nameof(StopReloading), 0, 0.1f);
+    }
+
+    public void StopReloading() 
+    {
+        if (animator.GetBool(isReloadingHash)) return;
+
+        playerController.isReloading = false;
+        equippedWeapon.StopReloading();
+        animator.SetBool(isReloadingHash, false);
+        CancelInvoke(nameof(StopReloading));
     }
 }
