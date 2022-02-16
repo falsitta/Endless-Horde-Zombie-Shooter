@@ -32,12 +32,18 @@ public class MovementComponent : MonoBehaviour
     public readonly int isRunningHash = Animator.StringToHash("IsRunning");
     public readonly int isFiringHash = Animator.StringToHash("IsFiring");
     public readonly int isReloadingHash = Animator.StringToHash("IsReloading");
+    public readonly int aimVerticalHash = Animator.StringToHash("AimVertical");
 
     private void Awake()
     {
         playerAnimator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
+
+        if (!GameManager.instance.cursorActive)
+        {
+            AppEvents.InvokeMouseCursorEnable(false);
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -68,14 +74,14 @@ public class MovementComponent : MonoBehaviour
         {
             angles.x = 70;
         }
-
+        
         followTarget.transform.localEulerAngles = angles;
 
         //rotate the player rotation based on the look transform
         transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
 
         followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
-
+        
         ///Movement
         if (playerController.isJumping) return;
         if (!(inputVector.magnitude > 0)) moveDirection = Vector3.zero;
@@ -102,6 +108,11 @@ public class MovementComponent : MonoBehaviour
     }
     public void OnJump(InputValue value)
     {
+        if (playerController.isJumping)
+        {
+            return;
+        }
+
         playerController.isJumping = value.isPressed;
         rigidbody.AddForce((transform.up + moveDirection) * jumpForce, ForceMode.Impulse);
         playerAnimator.SetBool(isJumpingHash, playerController.isJumping);
@@ -110,11 +121,14 @@ public class MovementComponent : MonoBehaviour
     public void OnAim(InputValue value)
     {
         playerController.isAiming = value.isPressed;
+
     }
 
     public void OnLook(InputValue value)
     {
         lookInput = value.Get<Vector2>();
+
+        
         //if we aim up, down, adjust animations to have a mask that will let us properly animate aim
     }
 
