@@ -55,16 +55,25 @@ public class MovementComponent : MonoBehaviour
     void Update()
     {
 
-        ///aiming/Looking
-        //horizontal rotation
         followTarget.transform.rotation *= Quaternion.AngleAxis(lookInput.x * aimSensitivity, Vector3.up);
-        //vertical rotation
+
         followTarget.transform.rotation *= Quaternion.AngleAxis(lookInput.y * aimSensitivity, Vector3.left);
 
         var angles = followTarget.transform.localEulerAngles;
         angles.z = 0;
 
         var angle = followTarget.transform.localEulerAngles.x;
+
+        float min = -60;
+        float max = 70.0f;
+        float range = max - min;
+        float offsetToZero = 0 - min;
+        float aimAngle = followTarget.transform.localEulerAngles.x;
+        aimAngle = (aimAngle > 180) ? aimAngle - 360 : aimAngle;
+        float val = (aimAngle + offsetToZero) / (range);
+        //print(val);
+        playerAnimator.SetFloat(aimVerticalHash, val);
+
 
         if (angle > 180 && angle < 300)
         {
@@ -74,7 +83,7 @@ public class MovementComponent : MonoBehaviour
         {
             angles.x = 70;
         }
-        
+
         followTarget.transform.localEulerAngles = angles;
 
         //rotate the player rotation based on the look transform
