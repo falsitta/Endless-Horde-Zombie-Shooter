@@ -117,16 +117,22 @@ public class WeaponComponent : MonoBehaviour
         {
             firingEffect.Stop();
         }
-        int bulletsToReload = weaponStats.clipSize - weaponStats.totalBullets;
-        if (bulletsToReload < 0)
+        // if there's a firing effect, hide it here
+
+        int bulletsToReload = weaponStats.totalBullets - (weaponStats.clipSize - weaponStats.bulletsInClip);
+
+        // -------------- COD style reload, subtract bullets ----------------------
+        if (bulletsToReload > 0)
         {
+            weaponStats.totalBullets = bulletsToReload;
             weaponStats.bulletsInClip = weaponStats.clipSize;
-            weaponStats.totalBullets -= weaponStats.clipSize;
         }
         else
         {
-            weaponStats.bulletsInClip = weaponStats.totalBullets;
+            weaponStats.bulletsInClip += weaponStats.totalBullets;
             weaponStats.totalBullets = 0;
         }
+
+
     }
 }
