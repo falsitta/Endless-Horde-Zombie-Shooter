@@ -10,4 +10,5 @@ public class PlayerController : MonoBehaviour
     public bool isRunning;
     public bool isAiming;
 
+    public InventoryComponent inventory;
 }
