@@ -11,4 +11,10 @@ public class PlayerHealthComponent : HealthComponent
         PlayerEvents.Invoke_OnHealthInitialized(this);
     }
 
+    public override void Destroy()
+    {
+        //load new game over scene when at 0 hp
+        //base.Destroy();
+    }
+
 }

@@ -15,6 +15,7 @@ public class ConsumableScriptable : ItemScript
         if(amountValue <= 0)
         {
             DeleteItem(playerController);
+
         }
     }
 }

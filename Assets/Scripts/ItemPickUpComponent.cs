@@ -28,6 +28,11 @@ public class ItemPickUpComponent : MonoBehaviour
         {
             ItemInstance.SetAmount(amount);
         }
+        else
+        { 
+            ItemInstance.SetAmount(pickupItem.amountValue);
+        
+        }
         ApplyMesh();
     }
 
@@ -43,6 +48,28 @@ public class ItemPickUpComponent : MonoBehaviour
 
         //add to inventory here
         //get reference to player inventory, add item to it
+        InventoryComponent playerInventory = other.GetComponent<InventoryComponent>();
+        WeaponHolder weaponHolder = other.GetComponent<WeaponHolder>();
+
+        if (playerInventory) playerInventory.AddItem(ItemInstance, amount);
+        if (ItemInstance.itemCategory == ItemCategory.Weapon )
+        {
+            WeaponComponent tempWeaponData = ItemInstance.itemPrefab.GetComponent<WeaponComponent>();
+            if (weaponHolder.WeaponAmmoData.ContainsKey(tempWeaponData.weaponStats.weaponType))
+            {
+                WeaponStats tempWeaponStats = weaponHolder.WeaponAmmoData[tempWeaponData.weaponStats.weaponType];
+                tempWeaponStats.totalBullets += ItemInstance.amountValue;
+
+                other.GetComponentInChildren<WeaponHolder>().WeaponAmmoData[tempWeaponData.weaponStats.weaponType] = tempWeaponStats;
+                if (weaponHolder.equippedWeapon != null)
+                {
+                    weaponHolder.equippedWeapon.weaponStats = weaponHolder.WeaponAmmoData[tempWeaponStats.weaponType];
+                }
+            }
+            //if its a new weapon, add a new key to weapon ammo data
+            
+
+        }
 
         Destroy(gameObject);
     }
